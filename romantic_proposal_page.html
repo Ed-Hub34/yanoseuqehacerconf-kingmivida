@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propuesta Romántica</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Caveat:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: black;
+            color: white;
+            font-family: 'Roboto', sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .screen {
+            display: none;
+            width: 100%;
+            height: 100vh;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        .main-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(255,255,255,0.1);
+        }
+
+        .subtitle {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: white;
+            margin-bottom: 60px;
+            opacity: 0.9;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .choice-button {
+            background-color: white;
+            color: black;
+            font-family: 'Caveat', cursive;
+            font-size: 2rem;
+            font-weight: 700;
+            padding: 20px 60px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255,255,255,0.3);
+        }
+
+        .choice-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255,255,255,0.4);
+            background-color: #f0f0f0;
+        }
+
+        .message-text {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.5rem;
+            color: white;
+            line-height: 1.8;
+            max-width: 800px;
+            margin-bottom: 60px;
+            font-weight: 300;
+        }
+
+        .next-button {
+            background-color: transparent;
+            color: white;
+            font-family: 'Caveat', cursive;
+            font-size: 1.8rem;
+            padding: 15px 40px;
+            border: 2px solid white;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .next-button:hover {
+            background-color: white;
+            color: black;
+            transform: translateY(-2px);
+        }
+
+        .final-message {
+            font-family: 'Roboto', sans-serif;
+            font-size: 3rem;
+            color: white;
+            font-weight: 400;
+            text-shadow: 2px 2px 8px rgba(255,255,255,0.2);
+        }
+
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .button-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .choice-button {
+                font-size: 1.5rem;
+                padding: 15px 40px;
+            }
+            
+            .message-text {
+                font-size: 1.2rem;
+            }
+            
+            .final-message {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Primera pantalla -->
+    <div class="screen active" id="screen1">
+        <h1 class="main-title">puedo volver a ser tu noviecito</h1>
+        <p class="subtitle">(por 3ova vez)</p>
+        <div class="button-container">
+            <button class="choice-button" onclick="showScreen('screen2')">sí</button>
+            <button class="choice-button" onclick="showScreen('screen4')">no</button>
+        </div>
+    </div>
+
+    <!-- Pantalla del "Sí" - mensaje -->
+    <div class="screen" id="screen2">
+        <p class="message-text">gracias por llegar hasta acá, en verdad me haces muy feliz, y mi único propósito será apoyarte y devolverte esa felicidad</p>
+        <button class="next-button" onclick="showScreen('screen3')">siguiente</button>
+    </div>
+
+    <!-- Pantalla del "Sí" - resultado final -->
+    <div class="screen" id="screen3">
+        <h2 class="final-message">arroz con estofado de pollo</h2>
+    </div>
+
+    <!-- Pantalla del "No" - mensaje -->
+    <div class="screen" id="screen4">
+        <p class="message-text">te doy mil gracias por siempre estar conmigo, te deseo lo mejor, y siempre tendré la opción de amarte, por lo menos en esta vida, y para mí, con tal de que seas feliz, estará bien</p>
+        <button class="next-button" onclick="showScreen('screen5')">siguiente</button>
+    </div>
+
+    <!-- Pantalla del "No" - resultado final -->
+    <div class="screen" id="screen5">
+        <h2 class="final-message">arroz con carne frita</h2>
+    </div>
+
+    <script>
+        function showScreen(screenId) {
+            // Ocultar todas las pantallas
+            const screens = document.querySelectorAll('.screen');
+            screens.forEach(screen => {
+                screen.classList.remove('active');
+            });
+
+            // Mostrar la pantalla seleccionada
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        // Agregar efectos de teclado para navegación
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const activeScreen = document.querySelector('.screen.active');
+                const button = activeScreen.querySelector('button');
+                if (button) {
+                    button.click();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
